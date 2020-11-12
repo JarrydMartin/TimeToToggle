@@ -5,8 +5,9 @@ using TimeToToggleCore.Models;
 
 namespace TimeToToggleCore.Services
 {
-    public interface IToggleService
+    public interface IToggleClient
     {
-        IEnumerable<ToggleTimeEntries> GetTimeEntriesToday();
+        Task<ToggleMe> GetMe();
+        Task<IEnumerable<ToggleTimeEntries>> GetTimeEntries();
     }
 }
