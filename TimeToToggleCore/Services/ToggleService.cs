@@ -24,7 +24,12 @@ namespace TimeToToggleCore.Services
         public IEnumerable<ToggleTimeEntries> GetTimeEntriesToday()
         {
             List<ToggleTimeEntries> timeEntries = _client.GetTimeEntries().Result.ToList();
-            return timeEntries.Where(entries => entries.Start.Date == DateTime.Today);
+            
+            return timeEntries.Where(entries => {
+                DateTime entryDate = entries.Start.ToLocalTime().Date;
+                DateTime today = DateTime.Today.ToLocalTime().Date;
+                return entryDate == today;
+                });
         }
 
         
