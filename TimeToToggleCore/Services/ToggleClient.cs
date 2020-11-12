@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using TimeToToggleCore.Models;
+using Microsoft.Extensions.Configuration;
 using TimeToToggleCore.Untlies;
 
 namespace TimeToToggleCore.Services
@@ -13,10 +14,19 @@ namespace TimeToToggleCore.Services
 
         private readonly ILogger _logger;
         private readonly HttpClient _client;
-        public ToggleClient(ILogger<ToggleClient> logger, HttpClient client)
+        public ToggleClient(ILogger<ToggleClient> logger, IConfiguration config, HttpClient client)
         {
             _logger = logger;
             _client = client;
+
+            string toggleApiUrl = config.GetValue<string>("ToggleApiUrl");
+            string toggleApiKey = config.GetValue<string>("ToggleApiKey");
+
+            client.BaseAddress = new Uri(toggleApiUrl);
+            
+            var authString =   $"{toggleApiKey}:api_token";
+            var EncodedAuthString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authString));
+            _client.DefaultRequestHeaders.Add("Authorization", $"Basic {EncodedAuthString}");
         }
 
         public async Task<ToggleMe> GetMe()
