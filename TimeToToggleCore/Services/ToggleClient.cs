@@ -29,20 +29,27 @@ namespace TimeToToggleCore.Services
             _client.DefaultRequestHeaders.Add("Authorization", $"Basic {EncodedAuthString}");
         }
 
-        public async Task<ToggleMe> GetMe()
+        public async Task<ToggleMeTransport> GetMe()
         {
             var response = await _client.GetAsync("me");
 
             response.EnsureSuccessStatusCode();
-            return await Parse<ToggleMe>.HttpResponse(response);
+            return await Parse<ToggleMeTransport>.HttpResponse(response);
         } 
 
-        public async Task<IEnumerable<ToggleTimeEntries>> GetTimeEntries()
+        public async Task<IEnumerable<ToggleTimeEntry>> GetTimeEntries()
         {
             var response = await _client.GetAsync("time_entries");
 
             response.EnsureSuccessStatusCode();
-            return await Parse<IEnumerable<ToggleTimeEntries>>.HttpResponse(response);
+            return await Parse<IEnumerable<ToggleTimeEntry>>.HttpResponse(response);
+        }
+
+        public async Task<ToggleReportTransport> GetProject(string projectId)
+        {
+            var response = await _client.GetAsync($"projects/{projectId}");
+             response.EnsureSuccessStatusCode();
+            return await Parse<ToggleReportTransport>.HttpResponse(response);
         }
     
     }

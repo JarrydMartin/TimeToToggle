@@ -7,7 +7,8 @@ namespace TimeToToggleCore.Services
 {
     public interface IToggleClient
     {
-        Task<ToggleMe> GetMe();
-        Task<IEnumerable<ToggleTimeEntries>> GetTimeEntries();
+        Task<ToggleMeTransport> GetMe();
+        Task<IEnumerable<ToggleTimeEntry>> GetTimeEntries();
+        Task<ToggleReportTransport> GetProject(string projectId);
     }
 }

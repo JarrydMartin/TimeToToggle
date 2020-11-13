@@ -1,23 +1,20 @@
 using System;
-using System.Collections.Generic;
-
-using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+
 
 
 namespace TimeToToggleCore.Models
 {
-    public partial class ToggleMe
+    public partial class ToggleMeTransport
     {
         [JsonProperty("since")]
         public long Since { get; set; }
 
         [JsonProperty("data")]
-        public Data Data { get; set; }
+        public ToggleMe ToggleMe { get; set; }
     }
 
-    public partial class Data
+    public partial class ToggleMe
     {
         [JsonProperty("id")]
         public long Id { get; set; }

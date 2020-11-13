@@ -7,6 +7,7 @@ namespace TimeToToggleCore.Services
 {
     public interface IToggleService
     {
-        IEnumerable<ToggleTimeEntries> GetTimeEntriesToday();
+        IEnumerable<ToggleTimeEntry> GetTimeEntriesToday();
+        ToggleReport GetProject(string projectId);
     }
 }

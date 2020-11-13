@@ -21,15 +21,20 @@ namespace TimeToToggleCore.Services
             _client = client;
         }
 
-        public IEnumerable<ToggleTimeEntries> GetTimeEntriesToday()
+        public IEnumerable<ToggleTimeEntry> GetTimeEntriesToday()
         {
-            List<ToggleTimeEntries> timeEntries = _client.GetTimeEntries().Result.ToList();
+            List<ToggleTimeEntry> timeEntries = _client.GetTimeEntries().Result.ToList();
             
             return timeEntries.Where(entries => {
                 DateTime entryDate = entries.Start.ToLocalTime().Date;
                 DateTime today = DateTime.Today.ToLocalTime().Date;
                 return entryDate == today;
                 });
+        }
+
+        public ToggleReport GetProject(string projectId)
+        {
+            return _client.GetProject(projectId).Result.ToggleReport;
         }
 
         
