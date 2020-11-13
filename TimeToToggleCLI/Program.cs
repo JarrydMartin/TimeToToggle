@@ -15,24 +15,11 @@ namespace TimeToToggleCLI
             var host = Host.CreateDefaultBuilder(args)
              .ConfigureServices((context, services) =>
              {
-                services.AddHttpClient<IToggleClient, ToggleClient>(client =>
-                {
-                    var authString = "<Api_Key>:api_token";
-                    var EncodedAuthString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authString));
-                    client.BaseAddress = new Uri("https://api.track.toggl.com/api/v8/");
-                    client.DefaultRequestHeaders.Add("Authorization", $"Basic {EncodedAuthString}");
-                });
-                services.AddTransient<ToggleService>();
+                services.AddHttpClient<IToggleClient, ToggleClient>();
+                services.AddTransient<IToggleService, ToggleService>();
              }).Build();
 
-
-            ToggleService toggleService = host.Services.GetService<ToggleService>();
-
-            // ToggleMe result = toggleService.GetMe().Result;
-            // Console.WriteLine(result.Data.Fullname);
-
-            List<ToggleTimeEntries> timeEntriesResults = toggleService.GetTimeEntriesToday().ToList();
-            Console.WriteLine("Hello");
+            IToggleService toggleService = host.Services.GetService<IToggleService>();
         }
     }
 }
